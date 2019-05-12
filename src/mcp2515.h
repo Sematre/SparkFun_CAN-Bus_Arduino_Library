@@ -1,5 +1,5 @@
-#ifndef	MCP2515_H
-#define	MCP2515_H
+#ifndef MCP2515_H
+#define MCP2515_H
 
 // ----------------------------------------------------------------------------
 /* Copyright (c) 2007 Fabian Greif
@@ -33,62 +33,47 @@
 
 #include "mcp2515_defs.h"
 #include "global.h"
+
 #ifdef __cplusplus
-
-extern "C"
-{
-	
-
+extern "C" {
 #endif
-// ----------------------------------------------------------------------------
-struct tCAN 
-{
-	tCAN(): id(0), header({0,8}),data({0,0,0,0,0,0,0,0}),extended(false) {}
+
+struct tCAN {
+	tCAN() : id(0), header({0, 8}), data({0, 0, 0, 0, 0, 0, 0, 0}), extended(false) {}
 	uint32_t id;
 	struct {
 		int8_t rtr : 1;
 		uint8_t length : 4;
 	} header;
+
 	uint8_t data[8];
 	bool extended; // true => 29bit id, false => 11bit id
 };
 
-// ----------------------------------------------------------------------------
-uint8_t spi_putc( uint8_t data );
+uint8_t spi_putc(uint8_t data);
 
-// ----------------------------------------------------------------------------
-void mcp2515_write_register( uint8_t adress, uint8_t data );
+void mcp2515_write_register(uint8_t adress, uint8_t data);
 
-// ----------------------------------------------------------------------------
 uint8_t mcp2515_read_register(uint8_t adress);
 
-// ----------------------------------------------------------------------------
 void mcp2515_bit_modify(uint8_t adress, uint8_t mask, uint8_t data);
 
-// ----------------------------------------------------------------------------
 uint8_t mcp2515_read_status(uint8_t type);
-
-// ----------------------------------------------------------------------------
 
 uint8_t mcp2515_init(uint8_t speed);
 
-// ----------------------------------------------------------------------------
-// check if there are any new messages waiting
+// Check if there are any new messages waiting
 uint8_t mcp2515_check_message(void);
 
-// ----------------------------------------------------------------------------
-// check if there is a free buffer to send messages
+// Check if there is a free buffer to send messages
 uint8_t mcp2515_check_free_buffer(void);
 
-// ----------------------------------------------------------------------------
 uint8_t mcp2515_get_message(tCAN *message);
 
-// ----------------------------------------------------------------------------
 uint8_t mcp2515_send_message(tCAN *message);
-
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	// MCP2515_H
+#endif // MCP2515_H
